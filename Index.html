@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+
+    <style>
+         .casa {
+            width: 110px;
+            height: 110px;
+            position: relative;
+            font-size: 70px;
+        }
+
+        .casa:hover {
+            top: -2px;
+            box-shadow: 0 2px 2px rgba(18, 157, 161, 0.856);
+        }
+    </style>
+
+</head>
+
+<body>
+
+   <body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <br>
+                <h3 class="text-info text-center">
+                    Velha do Dexter
+                </h3><br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
+                <table class="table table-bordered table-sm">
+                    <tbody style="text-align: center;">
+                        <tr class="table-info">
+                            <td>
+                                <button id="00" onclick="a00()" class="casa"></button>
+                            </td>
+                            <td>
+                                <button id="01" onclick="a01()" class="casa"></button>
+                            </td>
+                            <td>
+                                <button id="02" onclick="a02()" class="casa"></button>
+                            </td>
+                        </tr>
+                        <tr class="table-info">
+                            <td>
+                                <button id="10" onclick="a10()" class="casa"></button>
+                            </td>
+                            <td>
+                                <button id="11" onclick="a11()" class="casa"></button>
+                            </td>
+                            <td>
+                                <button id="12" onclick="a12()" class="casa"></button>
+                            </td>
+                        </tr>
+                        <tr class="table-info">
+                            <td>
+                                <button id="20" onclick="a20()" class="casa"></button>
+                            </td>
+                            <td>
+                                <button id="21" onclick="a21()" class="casa"></button>
+                            </td>
+                            <td>
+                                <button id="22" onclick="a22()" class="casa"></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-4">
+            </div>
+        </div>
+    </div>
+</body>
+
+
+
+
+</body>
+
+</html>
+<script>
+
+    let palavraInteira = ""
+    let ganhou = 0
+    let morreu = 0
+    let array
+    let riscos = []
+    var resposta = ""
+
+    document.getElementById("blockk").disabled = true
+
+    function transforma() {
+        var palavra = document.getElementById("palav").value
+        array = palavra.split('') // .split transforma a var em array, em posições numa lista (cada letra uma pos no array)       
+
+        palavraInteira = palavra
+        for (var pos = 0; pos < array.length; pos++) {   // conta as letras e substitui por _
+            resposta += " _ "
+            riscos.push(" _ ")
+            document.getElementById("block").disabled = true
+            document.getElementById("blockk").disabled = false
+        }
+        document.getElementById("letras").innerHTML = resposta
+        document.getElementById("palav").value = null  //ta limpando o espaço do input
+    }
+
+    function verificarLetra() {
+        var letra = document.getElementById("palav").value
+        var letraa = letra.split('')
+        var erro = 0
+
+        if (letra == "") {
+            alert("Digite uma letra!")
+        }
+        else {
+            if (letraa.length > 1) {
+                alert("Digite apenas uma letra!")
+            }
+            else {
+                for (var pos = 0; pos < array.length; pos++) {
+                    if (array[pos] == letra) {
+                        chute()
+                        erro++
+                        ganhou++
+                    }
+                }
+                if (erro == 0) {
+                    document.getElementById("palav").value = null
+                    document.getElementById("letraserradas").innerHTML += letra
+                    morreu++
+                    bonequinhe()
+                }
+                if (ganhou == array.length) {
+                    document.getElementById("blockk").disabled = true
+                    setTimeout(function () {
+                        alert("Você ganhou!")
+                    }, 700)
+                    document.getElementById("bonequinhe").src = "ganhou.png"
+                }
+            }
+        }
+    }
+
+    function chute() {
+
+        resposta = ""
+        var letra = document.getElementById("palav").value
+        for (var pos = 0; pos < array.length; pos++) {
+            if (riscos[pos] == " _ ") {
+                if (array[pos] == letra) {
+                    resposta += letra
+                    riscos[pos] = letra
+                }
+                else {
+                    resposta += " _ "
+                }
+            }
+            else {
+                riscos[pos] = array[pos]
+                resposta += array[pos]
+            }
+        }
+
+        document.getElementById("letras").innerHTML = resposta
+        document.getElementById("palav").value = ""
+
+    }
+
+    function bonequinhe() {
+
+        if (morreu == 1) {
+            document.getElementById("bonequinhe").src = "Cabeca.png"
+        }
+        else if (morreu == 2) {
+            document.getElementById("bonequinhe").src = "Torso.png"
+        }
+        else if (morreu == 3) {
+            document.getElementById("bonequinhe").src = "Braco1.png"
+        }
+        else if (morreu == 4) {
+            document.getElementById("bonequinhe").src = "Braco2.png"
+        }
+        else if (morreu == 5) {
+            document.getElementById("bonequinhe").src = "Perna1.png"
+        }
+        else {
+            document.getElementById("blockk").disabled = true
+            setTimeout(function () {
+                alert("Você perdeu!")
+            }, 700)
+            document.getElementById("bonequinhe").src = "Perdeu.png"
+            document.getElementById("letras").innerHTML = palavraInteira
+            document.getElementById("letraserradas").innerHTML = ""
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
